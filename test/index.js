@@ -2,14 +2,26 @@ var watchedBitfield = require('../')
 var tape = require('tape')
 
 tape('construct from array', function(t) {
-
 	var bitArray = [  0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1 , 1 ]
 	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b' ]
 
 	var wb = watchedBitfield.constructFromArray(bitArray, ids)
+	
 	t.deepEquals(wb.videoIds, ids, 'videoIds equal')
 	t.deepEquals(range(0, bitArray.length).map(idx => wb.bitfield.get(idx) ? 1 : 0), bitArray, 'bitfield is equal')
+
+	// @TODO: buffer to string
+	// @TODO: serialize
+
 	t.end()
+})
+
+tape('construct and resize: appended objects', function(t) {
+
+})
+
+tape('construct and resize: append at the end, remove from the beginning', function(t) {
+
 })
 
 // helpers lol
