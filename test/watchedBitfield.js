@@ -72,12 +72,36 @@ tape('construct and resize: append at the end, remove from the beginning', funct
 })
 
 tape('construct and resize: totally different set of IDs', function(t) {
-	// @TODO
+	var bitArray = [  0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1 , 1 , 1  ]
+	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b','c' ]
+
+	var idsWithAppended = ['d', 'e', 'f', 'g', 'h', 'n', 'm', 'l']
+	var bitArrayExpected = [0,   0,   0,   0,   0,   0,   0,   0]
+
+	testIsAsExpected(t, bitArray, ids, idsWithAppended, bitArrayExpected)
+
 	t.end()
 })
 
 tape('deserialize, set a few fields, serialize again', function(t) {
-	// @TODO
+	var bitArray = [  0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1 , 1 , 1  ]
+	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b','c' ]
+
+	var serialized = watchedBitfield.constructFromArray(bitArray, ids).serialize()
+
+	var wb1 = watchedBitfield.constructAndResize(serialized, ids)
+	
+	wb1.setVideo('3', true)
+	bitArray[2] = 1
+
+	wb1.setVideo('b', false);
+	bitArray[10] = 0
+
+	var wb2 = watchedBitfield.constructAndResize(wb1.serialize(), ids)
+
+	t.equals(wb2.bitfield.length, bitArray.length, 'length is correct')
+	t.deepEquals(bfToArr(wb2.bitfield), bitArray, 'bitArray is correct')
+
 	t.end()
 })
 
@@ -89,9 +113,16 @@ function testIsAsExpected(t, bitArray, ids, idsChanged, arrExpected) {
 	var wb = watchedBitfield.constructAndResize(serialized, idsChanged)
 
 	t.equal(wb.bitfield.length, arrExpected.length)
-	t.deepEquals(range(0, wb.bitfield.length).map(function(x, i) { return wb.bitfield.get(i) ? 1 : 0 }), arrExpected, 'bit array is as expected')
+	t.deepEquals(bfToArr(wb.bitfield), arrExpected, 'bit array is as expected')
 
 	t.ok(wb.serialize().startsWith(idsChanged[idsChanged.length-1]))
+}
+
+function bfToArr(bf) {
+	return range(0, bf.length)
+	.map(function(x, i) {
+		return bf.get(i) ? 1 : 0
+	})
 }
 
 function range(a, b) {
