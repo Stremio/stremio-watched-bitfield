@@ -26,6 +26,7 @@ Always use the last two functions in `try..catch`, because they will throw with 
 
 `wb.setVideo(videoId, isWatched)` - sets the video ID to `isWatched` (`true` or `false`)
 
+`wb.getVideo(videoId)` - returns `isWatched` for a video ID; will return `false` if the video does not exist in the bitfield
 
 ## Misc
 
