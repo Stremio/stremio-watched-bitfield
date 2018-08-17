@@ -12,9 +12,11 @@ tape('construct from array, serialize/deserialize', function(t) {
 
 	var serialized = wb.serialize()
 
-	console.log(serialized)
+	var wb2 = watchedBitfield.constructAndResize(serialized, ids)
 
-	//console.log(watchedBitfield.constructAndResize(serialized, ids))
+	t.equal(wb.bitfield.length, wb2.bitfield.length, 'deserialized - bitfield length is ok')
+	t.deepEquals(wb.bitfield.values, wb2.bitfield.values, 'deserialized - bitfield values are ok')
+	t.deepEquals(wb.videoIds, wb2.videoIds, 'deserialized - videoIds are ok')
 
 	t.end()
 })
@@ -34,11 +36,13 @@ tape('keeps big arrays small in serialized size', function(t) {
 
 	var serialized = wb.serialize()
 
-	console.log(serialized)
-
 	t.ok(serialized.length < 50, 'under 50 characters')
 
-	// @TODO: can recover it
+	var wb2 = watchedBitfield.constructAndResize(serialized, ids)
+
+	t.equal(wb.bitfield.length, wb2.bitfield.length, 'deserialized - bitfield length is ok')
+	t.deepEquals(wb.bitfield.values, wb2.bitfield.values, 'deserialized - bitfield values are ok')
+	t.deepEquals(wb.videoIds, wb2.videoIds, 'deserialized - videoIds are ok')
 
 	t.end()
 })
