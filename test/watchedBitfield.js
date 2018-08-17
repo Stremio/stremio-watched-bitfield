@@ -116,6 +116,9 @@ tape('deserialize, set a few fields, serialize again', function(t) {
 	t.equals(wb2.bitfield.length, bitArray.length, 'length is correct')
 	t.deepEquals(bfToArr(wb2.bitfield), bitArray, 'bitArray is correct')
 
+	t.equals(wb2.getVideo('3'), true, 'getVideo correct')
+	t.equals(wb2.getVideo('b'), false, 'getVideo is correct')
+
 	t.end()
 })
 
