@@ -23,7 +23,7 @@ Always use the last two functions in `try..catch`, because they will throw with 
 How to migrate from `watchedEpisodes`
 
 ```
-if (Array.isArray(state.watchedEpisodes) && meta.videos.length === state.watchedEpisodes.length) {
+if (Array.isArray(state.watchedEpisodes) && meta.type === 'series' && meta.videos.length >= state.watchedEpisodes.length) {
 	return watchedBitfield.constructFromArray(state.watchedEpisodes, meta.videos.map(function(v) { return v._id }))
 }
 ```
