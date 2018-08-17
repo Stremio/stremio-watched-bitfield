@@ -28,12 +28,3 @@ Always use the last two functions in `try..catch`, because they will throw with 
 
 `wb.getVideo(videoId)` - returns `isWatched` for a video ID; will return `false` if the video does not exist in the bitfield
 
-## Misc
-
-How to migrate from `watchedEpisodes`
-
-```
-if (Array.isArray(state.watchedEpisodes) && meta.type === 'series' && meta.videos.length >= state.watchedEpisodes.length) {
-	return watchedBitfield.constructFromArray(state.watchedEpisodes, meta.videos.map(function(v) { return v._id }))
-}
-```
