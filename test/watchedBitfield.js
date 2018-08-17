@@ -21,6 +21,20 @@ tape('construct from array, serialize/deserialize', function(t) {
 	t.end()
 })
 
+tape('construct from array respects videoIds length', function(t) {
+	var bitArray = [  0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1  ]
+	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b','c' ]
+
+	var wb = watchedBitfield.constructFromArray(bitArray, ids)
+	
+	t.equals(wb.bitfield.length, ids.length)
+	t.deepEquals(wb.videoIds, ids, 'videoIds equal')
+	t.deepEquals(range(0, bitArray.length).map(idx => wb.bitfield.get(idx) ? 1 : 0), bitArray, 'bitfield is consistent')
+
+	t.end()
+})
+
+
 tape('keeps big arrays small in serialized size', function(t) {
 	var bitArray = new Array(500)
 
