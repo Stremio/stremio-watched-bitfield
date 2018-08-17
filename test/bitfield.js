@@ -22,12 +22,11 @@ tape('compress and decompress', function(t) {
 
 	for (var i=3; i!=6; i++) f.set(i, true)
 
-	var ff = BitField8.fromPacked(f.toPacked())
+	var ff = BitField8.fromPacked(f.toPacked(), f.length)
 
 	for (var i=0; i!=f.length; i++)
 		t.equal(ff.get(i), i >= 3 && i<6, 'is right val')
 
-	// ripperoni
 	t.equal(f.length, ff.length)
 
 	t.end()
