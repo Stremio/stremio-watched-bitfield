@@ -48,16 +48,37 @@ tape('keeps big arrays small in serialized size', function(t) {
 })
 
 tape('construct and resize: appended objects', function(t) {
+	var bitArray = [  0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1 , 1 , 1  ]
+	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b','c' ]
+
+	var idsWithAppended = ids.concat([     'd', 'e', 'f', 'g'])
+	var bitArrayExpected = bitArray.concat([0,   0,   0,   0])
+
+	var serialized = watchedBitfield.constructFromArray(bitArray, ids).serialize()
+
+	var wb = watchedBitfield.constructAndResize(serialized, idsWithAppended)
+
+	t.equal(wb.bitfield.length, bitArrayExpected.length)
+	t.deepEquals(range(0, wb.bitfield.length).map(function(x, i) { return wb.bitfield.get(i) ? 1 : 0 }), bitArrayExpected, 'bit array is as expected')
+
+	t.ok(wb.serialize().startsWith(idsWithAppended[idsWithAppended.length-1]))
+
 	t.end()
 })
 
 tape('construct and resize: append at the end, remove from the beginning', function(t) {
+	// @TODO
+	t.end()
+})
+
+tape('deserialize, set a few fields, serialize again', function(t) {
+	// @TODO
 	t.end()
 })
 
 // helpers lol
-function range(a, b) { var ar = []; for (var i=a; i!=b; i++) ar.push(i); return ar }
-
-// if (Array.isArray(state.watchedEpisodes) && meta.videos.length === state.watchedEpisodes.length) {
-// 	watchedBitfield.constructFromArray(state.watchedEpisodes, meta.videos.map(function(v) { return v._id }))
-// }
+function range(a, b) {
+	var ar = []
+	for (var i=a; i!=b; i++) ar.push(i)
+	return ar
+}
