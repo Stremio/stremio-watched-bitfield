@@ -7,10 +7,8 @@ tape('construct from array', function(t) {
 	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b' ]
 
 	var wb = watchedBitfield.constructFromArray(bitArray, ids)
-	console.log(wb.bitfield)
-	//console.log(wb.bitfield.toString())
-
-	t.deepEquals(range(0,bitArray.length).map(idx => wb.bitfield.get(idx) ? 1 : 0), bitArray)
+	t.deepEquals(wb.videoIds, ids, 'videoIds equal')
+	t.deepEquals(range(0, bitArray.length).map(idx => wb.bitfield.get(idx) ? 1 : 0), bitArray, 'bitfield is equal')
 	t.end()
 })
 
