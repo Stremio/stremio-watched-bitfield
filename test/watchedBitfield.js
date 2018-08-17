@@ -54,19 +54,24 @@ tape('construct and resize: appended objects', function(t) {
 	var idsWithAppended = ids.concat([     'd', 'e', 'f', 'g'])
 	var bitArrayExpected = bitArray.concat([0,   0,   0,   0])
 
-	var serialized = watchedBitfield.constructFromArray(bitArray, ids).serialize()
-
-	var wb = watchedBitfield.constructAndResize(serialized, idsWithAppended)
-
-	t.equal(wb.bitfield.length, bitArrayExpected.length)
-	t.deepEquals(range(0, wb.bitfield.length).map(function(x, i) { return wb.bitfield.get(i) ? 1 : 0 }), bitArrayExpected, 'bit array is as expected')
-
-	t.ok(wb.serialize().startsWith(idsWithAppended[idsWithAppended.length-1]))
+	testIsAsExpected(t, bitArray, ids, idsWithAppended, bitArrayExpected)
 
 	t.end()
 })
 
 tape('construct and resize: append at the end, remove from the beginning', function(t) {
+	var bitArray = [  0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1 , 1 , 1  ]
+	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b','c' ]
+
+	var idsChanged = ids.slice(2).concat([     'd', 'e', 'f', 'g'])
+	var bitArrayExpected = bitArray.slice(2).concat([0,   0,   0,   0]);
+
+	testIsAsExpected(t, bitArray, ids, idsChanged, bitArrayExpected)
+
+	t.end()
+})
+
+tape('construct and resize: totally different set of IDs', function(t) {
 	// @TODO
 	t.end()
 })
@@ -76,7 +81,19 @@ tape('deserialize, set a few fields, serialize again', function(t) {
 	t.end()
 })
 
+
 // helpers lol
+function testIsAsExpected(t, bitArray, ids, idsChanged, arrExpected) {
+	var serialized = watchedBitfield.constructFromArray(bitArray, ids).serialize()
+
+	var wb = watchedBitfield.constructAndResize(serialized, idsChanged)
+
+	t.equal(wb.bitfield.length, arrExpected.length)
+	t.deepEquals(range(0, wb.bitfield.length).map(function(x, i) { return wb.bitfield.get(i) ? 1 : 0 }), arrExpected, 'bit array is as expected')
+
+	t.ok(wb.serialize().startsWith(idsChanged[idsChanged.length-1]))
+}
+
 function range(a, b) {
 	var ar = []
 	for (var i=a; i!=b; i++) ar.push(i)
