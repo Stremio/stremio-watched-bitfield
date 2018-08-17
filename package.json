@@ -1,0 +1,17 @@
+{
+  "name": "stremio-watched-bitfield",
+  "version": "1.0.0",
+  "description": "A bitfield of watched episodes for a libraryItem",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "author": "Smart Code",
+  "license": "MIT",
+  "dependencies": {
+    "atob": "^2.1.1",
+    "btoa": "^1.2.1",
+    "pako": "^1.0.6",
+    "tape": "^4.9.1"
+  }
+}
