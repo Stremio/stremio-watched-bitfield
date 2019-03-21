@@ -65,8 +65,8 @@ tape('construct and resize: appended objects', function(t) {
 	var bitArray = [  0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1 , 1 , 1  ]
 	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b','c' ]
 
-	var idsWithAppended = ids.concat([     'd', 'e', 'f', 'g'])
-	var bitArrayExpected = bitArray.concat([0,   0,   0,   0])
+	var idsWithAppended = ids.concat([     'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'])
+	var bitArrayExpected = bitArray.concat([0,   0,   0,   0,   0,   0,   0,   0,   0])
 
 	testIsAsExpected(t, bitArray, ids, idsWithAppended, bitArrayExpected)
 
@@ -129,6 +129,7 @@ function testIsAsExpected(t, bitArray, ids, idsChanged, arrExpected) {
 
 	var wb = watchedBitfield.constructAndResize(serialized, idsChanged)
 
+	t.equal(Math.ceil(arrExpected.length / 8), wb.bitfield.values.length, 'bitfield length is as expected')
 	t.equal(wb.bitfield.length, arrExpected.length)
 	t.deepEquals(bfToArr(wb.bitfield), arrExpected, 'bit array is as expected')
 

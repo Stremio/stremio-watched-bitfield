@@ -31,3 +31,4 @@ tape('compress and decompress', function(t) {
 
 	t.end()
 })
+
