@@ -1,6 +1,6 @@
 {
   "name": "stremio-watched-bitfield",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A bitfield of watched episodes for a libraryItem",
   "main": "index.js",
   "scripts": {
