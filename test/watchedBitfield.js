@@ -78,7 +78,20 @@ tape('construct and resize: append at the end, remove from the beginning', funct
 	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b','c' ]
 
 	var idsChanged = ids.slice(2).concat([     'd', 'e', 'f', 'g'])
-	var bitArrayExpected = bitArray.slice(2).concat([0,   0,   0,   0]);
+	var bitArrayExpected = bitArray.slice(2).concat([0,   0,   0,   0])
+
+	testIsAsExpected(t, bitArray, ids, idsChanged, bitArrayExpected)
+
+	t.end()
+})
+
+tape('construct and resize: remove from the end, append to the beginning', function(t) {
+	// the last ID that won't be popped ('a') needs to be the last watched, so we can use it as an anchor
+	var bitArray = [  0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1 , 0 , 0  ]
+	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b','c' ]
+
+	var idsChanged =       ['d', 'e'].concat(ids).slice(0, ids.length)
+	var bitArrayExpected = [ 0,   0 ].concat(bitArray).slice(0, bitArray.length)
 
 	testIsAsExpected(t, bitArray, ids, idsChanged, bitArrayExpected)
 
@@ -133,7 +146,8 @@ function testIsAsExpected(t, bitArray, ids, idsChanged, arrExpected) {
 	t.equal(wb.bitfield.length, arrExpected.length)
 	t.deepEquals(bfToArr(wb.bitfield), arrExpected, 'bit array is as expected')
 
-	t.ok(wb.serialize().startsWith(idsChanged[idsChanged.length-1]))
+	var lastWatchedIdx = Math.max(0, wb.bitfield.lastIndexOf(true))
+	t.ok(wb.serialize().startsWith(idsChanged[lastWatchedIdx]))
 }
 
 function bfToArr(bf) {
