@@ -98,6 +98,18 @@ tape('construct and resize: remove from the end, append to the beginning', funct
 	t.end()
 })
 
+tape('construct and resize: append to the beginning', function(t) {
+	var bitArray = [  0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1 , 0 , 1  ]
+	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b','c' ]
+
+	var idsChanged =       ['d', 'e'].concat(ids)
+	var bitArrayExpected = [ 0,   0 ].concat(bitArray)
+
+	testIsAsExpected(t, bitArray, ids, idsChanged, bitArrayExpected)
+
+	t.end()
+})
+
 tape('construct and resize: totally different set of IDs', function(t) {
 	var bitArray = [  0 , 0 , 0 , 0 , 0 , 0 , 1 , 1 , 1 , 1 , 1 , 1  ]
 	var ids =      [ '1','2','3','4','5','6','7','8','9','a','b','c' ]
