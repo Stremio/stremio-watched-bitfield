@@ -28,3 +28,7 @@ Always use the last two functions in `try..catch`, because they will throw with 
 
 `wb.getVideo(videoId)` - returns `isWatched` for a video ID; will return `false` if the video does not exist in the bitfield
 
+
+### serialized format
+
+`{lastVideoID}:{lastLength}:{serializedBuf}`
